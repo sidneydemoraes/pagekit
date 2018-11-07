@@ -1,0 +1,52 @@
+version: '3'
+services:
+    database:
+        container_name: pk-db
+        image: mysql:5.7
+        ports:
+            - "3307:3306"
+        restart: on-failure:5
+        volumes:
+            - ./mysql:/var/lib/mysql
+        environment:
+            MYSQL_DATABASE: <insira_nome_do_banco>
+            MYSQL_USER: <insira_usuario_do_wp_ao_banco>
+            MYSQL_PASSWORD: <insira_senha_do_banco>
+            MYSQL_ROOT_PASSWORD: <insira_senha_root_do_banco>
+    pagekit:
+        container_name: pk-app
+        depends_on:
+            - database
+        build: ../conf/pagekit
+        image: smc/pagekit:0.1
+        ports:
+            - "8010:80"
+        restart: on-failure:5
+        volumes:
+            - ./app/storage:/pagekit/storage
+            - ./app/cache:/pagekit/app/cache
+            - ~/.ssh:/root/.ssh      # (!)
+#######################################
+#
+# Se quiser atribuir nomes personalizados
+# a cada um dos contêineres criados aqui, 
+# insira a propriedade *container_name:* 
+# no serviço do contêiner a ser renomeado.
+#
+# Esse procedimento será necessário caso
+# você queira reutilizar este modelo de
+# configuração para criar contêineres de
+# outro projeto Pagekit e ambos precisem
+# permanecer na sua máquina ao mesmo tempo.
+#
+# Para *rodar* dois projetos Pagekit ao
+# mesmo tempo, também será necessário mudar
+# a porta utilizada por cada contêiner do
+# novo projeto.
+#
+# (!) Você pode copiar suas chaves SSH para
+# a pasta SSH caso elas sejam necessárias
+# para se conectar remotamente ao seu
+# servidor de produção.
+#
+#######################################
