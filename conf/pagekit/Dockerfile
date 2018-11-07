@@ -9,7 +9,7 @@ RUN apt-get update && \
     ca-certificates \
     php7.2 php7.2-fpm php7.2-cli php7.2-json php7.2-curl php7.2-sqlite3 php7.2-xml php7.2-zip && \
     mkdir /pagekit
-ADD nginx.conf /etc/nginx/nginx.conf
+ADD ../nginx/nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /pagekit
 VOLUME ["/pagekit/storage", "/pagekit/app/cache"]
