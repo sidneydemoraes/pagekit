@@ -17,7 +17,7 @@ services:
         container_name: pk-app
         depends_on:
             - database
-        build: ../conf/pagekit
+        build: ./
         image: smc/pagekit:0.1
         ports:
             - "8010:80"
