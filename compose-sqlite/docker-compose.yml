@@ -1,0 +1,30 @@
+version: '3'
+services:
+    pagekit:
+        container_name: pk-app
+        build: ../conf/pagekit
+        image: smc/pagekit:sqlite-0.1
+        ports:
+            - "8010:80"
+        restart: on-failure:5
+        volumes:
+            - ./app/storage:/pagekit/storage
+            - ./app/cache:/pagekit/app/cache
+            - ~/.ssh:/root/.ssh      # (!)
+#######################################
+#
+# No momento da instalação/configuração
+# do pagekit, selecionar como host do 
+# banco de dados `sqlite`.
+#
+# Para *rodar* dois projetos Pagekit ao
+# mesmo tempo, será necessário mudar
+# a porta utilizada por cada contêiner do
+# novo projeto.
+#
+# (!) Você pode copiar suas chaves SSH para
+# a pasta SSH caso elas sejam necessárias
+# para se conectar remotamente ao seu
+# servidor de produção.
+#
+#######################################
